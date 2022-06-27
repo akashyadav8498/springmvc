@@ -7,4 +7,5 @@ public interface UserDao {
     public void insertUserData(String name, String email, int phone, String username, String
             password);
 
+
 }

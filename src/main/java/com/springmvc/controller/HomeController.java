@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -63,12 +66,27 @@ public class HomeController {
             @RequestParam("username") String username,
             @RequestParam("password") String password,
             @RequestParam("action") String action,
-            Model m) {
+            Model m, HttpServletRequest request,
+            HttpServletResponse response) {
 
         if ("Login".equals(action)) {
 
-            m.addAttribute("username", username);
-            m.addAttribute("password", password);
+            ApplicationContext context = new ClassPathXmlApplicationContext("dbconfig.xml");
+            UserDao userDao = context.getBean("userDao", UserDao.class);
+
+            List<User> user = userDao.getUserData();
+
+            HttpSession session = request.getSession(true);
+
+            session.setAttribute("username", username);
+            m.addAttribute("session", session);
+            m.addAttribute("model",m);
+            for(int i =0; i<=user.size()-1;i++) {
+                if (user.get(i).getUsername().equals(username) && user.get(i).getPassword().equals(password)) {
+                    m.addAttribute("message", "welcome");
+                }
+            }
+
 
         }
 

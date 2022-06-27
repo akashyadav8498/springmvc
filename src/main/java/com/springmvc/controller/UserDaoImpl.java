@@ -29,4 +29,5 @@ public class UserDaoImpl implements UserDao {
 
         jdbcTemplate.update("insert into user (name, email, phone, username, password) values(?,?,?,?,?)", name, email, phone, username, password);
     }
+
 }
