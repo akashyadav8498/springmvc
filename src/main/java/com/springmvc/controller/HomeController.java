@@ -28,72 +28,83 @@ public class HomeController {
 
     }
 
-    @RequestMapping("/submit")
+    @RequestMapping("/signup")
     public String home(@RequestParam("action") String action) {
 
-        if ("login".equals(action)) {
-            return "login";
-        } else {
+
             return "sign_up";
-        }
+
 
     }
 
 
-    @RequestMapping("/signup")
+    @RequestMapping("/save_user")
     public String signup(
             @RequestParam("name") String name,
             @RequestParam("email") String email,
             @RequestParam("phone") int phone,
             @RequestParam("username") String username,
             @RequestParam("password") String password,
-            @RequestParam("action") String action,
             Model m) {
 
-        if ("Signup".equals(action)) {
+
             ApplicationContext context = new ClassPathXmlApplicationContext("dbconfig.xml");
             UserDao userDao = context.getBean("userDao", UserDao.class);
 
             userDao.insertUserData(name, email, phone, username, password);
 
-        }
-        return "demo";
+
+        return "data_saved";
 
     }
 
-    @RequestMapping("/login")
+    @RequestMapping("/user_validation")
     public String login(
             @RequestParam("username") String username,
             @RequestParam("password") String password,
-            @RequestParam("action") String action,
             Model m, HttpServletRequest request,
             HttpServletResponse response) {
+            int count = 0;
 
-        if ("Login".equals(action)) {
-
+        //VALIDATING USER FROM DATABASE-->
             ApplicationContext context = new ClassPathXmlApplicationContext("dbconfig.xml");
             UserDao userDao = context.getBean("userDao", UserDao.class);
-
             List<User> user = userDao.getUserData();
 
-            HttpSession session = request.getSession(true);
-
-            session.setAttribute("username", username);
-            m.addAttribute("session", session);
-            m.addAttribute("model",m);
             for(int i =0; i<=user.size()-1;i++) {
                 if (user.get(i).getUsername().equals(username) && user.get(i).getPassword().equals(password)) {
-                    m.addAttribute("message", "welcome");
+                    m.addAttribute("message", "WELCOME");
+                    m.addAttribute("username", username);
+                    count++;
                 }
             }
 
 
-        }
+            if(count==1)
+            {
+                HttpSession session = request.getSession(true);
 
+                return "valid_user";
+            }
+            else {
 
-        return "message";
+                return "invalid_user";
+            }
     }
 
+    @RequestMapping("/logout")
+    public String logout(
+            Model m, HttpServletRequest request,
+            HttpServletResponse response) {
+
+            HttpSession session1 = request.getSession(false);
+            session1.invalidate();
+
+
+            return "index";
+
+
+    }
 
 
 }

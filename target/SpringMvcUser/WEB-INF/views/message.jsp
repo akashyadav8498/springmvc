@@ -1,5 +1,6 @@
 <%@ page import="com.springmvc.controller.User" %>
-<%@ page import="org.springframework.ui.Model" %><%--
+<%@ page import="org.springframework.ui.Model" %>
+<%@ page import="java.io.PrintWriter" %><%--
   Created by IntelliJ IDEA.
   User: Admin
   Date: 23-06-2022
@@ -13,10 +14,18 @@
 </head>
 <body>
 
+<form action="logout">
 
+    <label>Log out:</label><br>
+    <input type="submit" name="action" value="logout">
+</form>
+<h1>
 <% Object o = request.getAttribute("message");
+   String username = (String) request.getAttribute("username");
+
 if(o==null)
 {
+
 %>
 <%="user not found"%>
 <%
@@ -25,16 +34,24 @@ if(o==null)
     {
 %>
 <%=(String)o %>
+<%=username %>
+
+
 <%
+       HttpSession session1 =  request.getSession(true);
+       session1.setMaxInactiveInterval(1);
+
+        if(session1==null){
+            %>
+    <%="session time out!!!!"%>
+    <%
+        }
     }
-    HttpSession sess = (HttpSession)request.getAttribute("session");
-    HttpSession session1 = request.getSession(true);
-    String s = (String) session1.getAttribute("username");
+
+
 %>
 
-<%= s%>
-<%=session1%>
-<%=sess%>
-<%=(Model)request.getAttribute("model")%>
+
+</h1>
 </body>
 </html>
