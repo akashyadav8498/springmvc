@@ -12,10 +12,24 @@
 
 </head>
 <body>
-<h1>LOGIN SUCCESSFULL!!!!</h1>
+
 
 
 <div class="container mt-5 ">
+
+    <form action="search">
+
+        <h2>Search any user:</h2>
+        <div class="container">
+            <label for="name">Type Name:</label>
+            <input type="text" class="form-control" name="name" aria-describedby="emailHelp" ><br>
+            <button type="submit" class="btn btn-success">Search</button>
+        </div>
+
+
+    </form>
+
+    <br>
 
     <form action="logout">
 
@@ -25,6 +39,8 @@
 
 
     </form>
+
+
 
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

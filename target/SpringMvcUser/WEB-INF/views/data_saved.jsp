@@ -6,6 +6,8 @@
 
 </head>
 <body>
-<h1>DATA SAVED SUCCESFULLY!!!!</h1>
+<script>alert("DATA SAVED SUCCESSFULLY!!!");
+window.location = '/signup';
+</script>
 </body>
 </html>
